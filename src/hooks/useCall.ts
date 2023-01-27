@@ -1,5 +1,6 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import type { HMSStore, IStoreReadOnly } from "@100mslive/hms-video-store";
+import { selectVideoTrackByID } from "@100mslive/hms-video-store";
 import type { IHMSActions } from "@100mslive/hms-video-store/dist/core/IHMSActions";
 import { CallContext } from "../components/CallProvider";
 import type { StateSelector } from "zustand";
@@ -39,4 +40,29 @@ export const useHMSActions = () => {
     );
   }
   return context.hmsActions as IHMSActions;
+};
+
+export const useVideo = (trackId: string) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const store = useHMSStore();
+  const hmsActions = useHMSActions();
+
+  useEffect(() => {
+    store.subscribe((track) => {
+      if (!track || !videoRef.current) {
+        return;
+      }
+      if (track.enabled) {
+        hmsActions
+          .attachVideo(track.id, videoRef.current)
+          .catch((e) => console.error(e));
+      } else {
+        hmsActions
+          .detachVideo(track.id, videoRef.current)
+          .catch((e) => console.error(e));
+      }
+    }, selectVideoTrackByID(trackId));
+  });
+
+  return { videoRef };
 };
