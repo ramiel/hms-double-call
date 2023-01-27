@@ -1,14 +1,48 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
-import { HMSRoomProvider } from "@100mslive/react-sdk";
+import { useMemo, useState } from "react";
+import type { HMSStore } from "@100mslive/react-sdk";
+import { HMSReactiveStore, HMSRoomProvider } from "@100mslive/react-sdk";
 import { Call } from "../components/Call";
 import { Settings } from "../components/Settings";
-import { Container, Group, Stack, Text } from "@mantine/core";
+import { Container, Group, Stack } from "@mantine/core";
+import create from "zustand";
 
 const Home: NextPage = () => {
   const [settingsA, setSettingsA] = useState<Settings | null>(null);
   const [settingsB, setSettingsB] = useState<Settings | null>(null);
+  const storeA = useMemo(() => {
+    const store = new HMSReactiveStore();
+    return {
+      actions: store.getActions(),
+      notifications: store.getNotifications(),
+      store: create<HMSStore>({
+        ...store.getStore(),
+        setState: () => {
+          throw new Error("Store not ready");
+        },
+        destroy: () => {
+          throw new Error("Store not ready");
+        },
+      }),
+    };
+  }, []);
+  const storeB = useMemo(() => {
+    const store = new HMSReactiveStore();
+    return {
+      actions: store.getActions(),
+      notifications: store.getNotifications(),
+      store: create<HMSStore>({
+        ...store.getStore(),
+        setState: () => {
+          throw new Error("Store not ready");
+        },
+        destroy: () => {
+          throw new Error("Store not ready");
+        },
+      }),
+    };
+  }, []);
   return (
     <>
       <Head>
@@ -27,7 +61,7 @@ const Home: NextPage = () => {
                     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3Nfa2V5IjoiNjNjN2I5YmRiOTRhZTZiMzc5MTFmOTQwIiwicm9vbV9pZCI6IjYzZDI5Y2U4ZGE3ZTdjYTgxMjg0MGFiZSIsInVzZXJfaWQiOiJ1ZGVyeW95diIsInJvbGUiOiJtZW1iZXIiLCJqdGkiOiIwNzA4MDRmZi01NjQyLTQ1ZjQtOTBlMi04MmNlOTg0OTcxZGIiLCJ0eXBlIjoiYXBwIiwidmVyc2lvbiI6MiwiZXhwIjoxNjc0ODM0NzkzfQ.aWeYanEYZCRl0_6OUN13U1GVQut_rpegovPq-dx9Sr8",
                 }}
               />
-              <HMSRoomProvider>
+              <HMSRoomProvider {...storeA}>
                 {settingsA ? <Call {...settingsA} roomName="Red" /> : null}
               </HMSRoomProvider>
             </Group>
@@ -40,7 +74,7 @@ const Home: NextPage = () => {
                       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3Nfa2V5IjoiNjNjN2I5YmRiOTRhZTZiMzc5MTFmOTQwIiwicm9vbV9pZCI6IjYzZDI5ZDcxY2Q4MTc1NzAxYWFjMDE4MCIsInVzZXJfaWQiOiJjc2ttdXB4ZiIsInJvbGUiOiJtZW1iZXIiLCJqdGkiOiJiZGUxMzYzOS05OTRjLTQxYzAtYmM4NS1kOTYyYjcyZjMzYzgiLCJ0eXBlIjoiYXBwIiwidmVyc2lvbiI6MiwiZXhwIjoxNjc0ODM0NjQyfQ.KEyieEMxCtaOKzYht4ImCeI24csngkeow2DYJP_8qiQ",
                   }}
                 />
-                <HMSRoomProvider>
+                <HMSRoomProvider {...storeB}>
                   {settingsB ? <Call {...settingsB} roomName="Blue" /> : null}
                 </HMSRoomProvider>
               </Group>
