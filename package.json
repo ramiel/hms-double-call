@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@100mslive/react-sdk": "^0.6.1",
+    "@100mslive/hms-video-store": "^0.8.1",
     "@emotion/react": "^11.10.5",
     "@mantine/core": "^5.10.2",
     "@mantine/hooks": "^5.10.2",

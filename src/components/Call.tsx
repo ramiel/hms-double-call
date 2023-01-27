@@ -1,10 +1,6 @@
-import {
-  HMSRoomState,
-  selectRoomState,
-  useHMSActions,
-  useHMSStore,
-} from "@100mslive/react-sdk";
+import { HMSRoomState, selectRoomState } from "@100mslive/hms-video-store";
 import { Button, Stack, Text } from "@mantine/core";
+import { useHMSActions, useHMSState } from "../hooks/useCall";
 
 export const Call: React.FC<{
   roomName?: string;
@@ -12,12 +8,14 @@ export const Call: React.FC<{
   token: string;
 }> = ({ name, token, roomName }) => {
   const hmsActions = useHMSActions();
-  const roomState = useHMSStore(selectRoomState);
+  const roomState = useHMSState(selectRoomState);
 
   return (
     <Stack>
       <Text>
-        {roomName} Room {roomState}
+        <>
+          {roomName} Room {roomState}
+        </>
       </Text>
       {roomState === HMSRoomState.Disconnected ? (
         <Button

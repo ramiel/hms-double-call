@@ -6,7 +6,7 @@ import "../styles/globals.css";
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </MantineProvider>
   );
 };

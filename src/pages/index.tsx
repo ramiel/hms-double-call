@@ -1,48 +1,15 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useMemo, useState } from "react";
-import type { HMSStore } from "@100mslive/react-sdk";
-import { HMSReactiveStore, HMSRoomProvider } from "@100mslive/react-sdk";
+import { useState } from "react";
 import { Call } from "../components/Call";
 import { Settings } from "../components/Settings";
 import { Container, Group, Stack } from "@mantine/core";
-import create from "zustand";
+import { CallProvider } from "../components/CallProvider";
 
 const Home: NextPage = () => {
   const [settingsA, setSettingsA] = useState<Settings | null>(null);
   const [settingsB, setSettingsB] = useState<Settings | null>(null);
-  const storeA = useMemo(() => {
-    const store = new HMSReactiveStore();
-    return {
-      actions: store.getActions(),
-      notifications: store.getNotifications(),
-      store: create<HMSStore>({
-        ...store.getStore(),
-        setState: () => {
-          throw new Error("Store not ready");
-        },
-        destroy: () => {
-          throw new Error("Store not ready");
-        },
-      }),
-    };
-  }, []);
-  const storeB = useMemo(() => {
-    const store = new HMSReactiveStore();
-    return {
-      actions: store.getActions(),
-      notifications: store.getNotifications(),
-      store: create<HMSStore>({
-        ...store.getStore(),
-        setState: () => {
-          throw new Error("Store not ready");
-        },
-        destroy: () => {
-          throw new Error("Store not ready");
-        },
-      }),
-    };
-  }, []);
+
   return (
     <>
       <Head>
@@ -60,9 +27,9 @@ const Home: NextPage = () => {
                   token: process.env.NEXT_PUBLIC_RED_TOKEN,
                 }}
               />
-              <HMSRoomProvider {...storeA}>
+              <CallProvider>
                 {settingsA ? <Call {...settingsA} roomName="Red" /> : null}
-              </HMSRoomProvider>
+              </CallProvider>
             </Group>
             <Stack>
               <Group>
@@ -72,9 +39,9 @@ const Home: NextPage = () => {
                     token: process.env.NEXT_PUBLIC_BLUE_TOKEN,
                   }}
                 />
-                <HMSRoomProvider {...storeB}>
+                <CallProvider>
                   {settingsB ? <Call {...settingsB} roomName="Blue" /> : null}
-                </HMSRoomProvider>
+                </CallProvider>
               </Group>
             </Stack>
           </Stack>
