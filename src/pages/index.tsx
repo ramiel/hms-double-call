@@ -57,8 +57,7 @@ const Home: NextPage = () => {
               <Settings
                 onChange={(settings) => setSettingsA(settings)}
                 value={{
-                  token:
-                    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3Nfa2V5IjoiNjNjN2I5YmRiOTRhZTZiMzc5MTFmOTQwIiwicm9vbV9pZCI6IjYzZDI5Y2U4ZGE3ZTdjYTgxMjg0MGFiZSIsInVzZXJfaWQiOiJ1ZGVyeW95diIsInJvbGUiOiJtZW1iZXIiLCJqdGkiOiIwNzA4MDRmZi01NjQyLTQ1ZjQtOTBlMi04MmNlOTg0OTcxZGIiLCJ0eXBlIjoiYXBwIiwidmVyc2lvbiI6MiwiZXhwIjoxNjc0ODM0NzkzfQ.aWeYanEYZCRl0_6OUN13U1GVQut_rpegovPq-dx9Sr8",
+                  token: process.env.NEXT_PUBLIC_RED_TOKEN,
                 }}
               />
               <HMSRoomProvider {...storeA}>
@@ -70,8 +69,7 @@ const Home: NextPage = () => {
                 <Settings
                   onChange={(settings) => setSettingsB(settings)}
                   value={{
-                    token:
-                      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2Nlc3Nfa2V5IjoiNjNjN2I5YmRiOTRhZTZiMzc5MTFmOTQwIiwicm9vbV9pZCI6IjYzZDI5ZDcxY2Q4MTc1NzAxYWFjMDE4MCIsInVzZXJfaWQiOiJjc2ttdXB4ZiIsInJvbGUiOiJtZW1iZXIiLCJqdGkiOiJiZGUxMzYzOS05OTRjLTQxYzAtYmM4NS1kOTYyYjcyZjMzYzgiLCJ0eXBlIjoiYXBwIiwidmVyc2lvbiI6MiwiZXhwIjoxNjc0ODM0NjQyfQ.KEyieEMxCtaOKzYht4ImCeI24csngkeow2DYJP_8qiQ",
+                    token: process.env.NEXT_PUBLIC_BLUE_TOKEN,
                   }}
                 />
                 <HMSRoomProvider {...storeB}>
